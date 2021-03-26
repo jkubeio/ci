@@ -29,7 +29,10 @@
   "husky": {
     "skipCI": true,
     "hooks": {
-     "pre-commit": "git rm --cached -r node_modules/ && npm prune --production && git add node_modules/* package-lock.json"
+      "pre-commit": "git rm --cached -r node_modules/ && npm prune --production && git add node_modules/* package-lock.json"
     }
+  },
+  "jest": {
+    "setupFiles": ["./jest.setup.js"]
   }
 }

@@ -28,6 +28,10 @@ const computeCommandLineArguments = (argv = process.argv) => {
 };
 
 const config = {
+  __visible_for_testing__: {
+    computeAuth,
+    computeCommandLineArguments
+  },
   auth: computeAuth(),
   ...DEFAULT_CONFIG_VALUES,
   ...computeCommandLineArguments()
