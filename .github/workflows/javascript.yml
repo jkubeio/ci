@@ -1,0 +1,19 @@
+name: Check JS code
+
+on: [push]
+
+jobs:
+  main:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node
+        uses: actions/setup-node@v2
+      - name: NPM install
+        run: npm install
+      - name: Check Format
+        run: npm run format-check
+      - name: Unit tests
+        run: npm test
