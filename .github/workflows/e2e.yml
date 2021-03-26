@@ -3,6 +3,8 @@ name: JKube E2E Tests
 on:
   repository_dispatch:
     types: [pull_request]
+env:
+  ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
 jobs:
   bootstrap-CI-test-run:
