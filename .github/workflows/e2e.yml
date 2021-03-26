@@ -1,0 +1,20 @@
+name: JKube E2E Tests
+
+on:
+  repository_dispatch:
+    types: [pull_request]
+
+jobs:
+  bootstrap-CI-test-run:
+    name: Bootstrap CI test run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+      - name: Setup Node
+        uses: actions/setup-node@v2
+      - name: NPM install
+        run: npm install
+      - name: Bootstrap
+        run: |
+          node src/index.js init --pr=${{ github.event.client_payload.pr }}
