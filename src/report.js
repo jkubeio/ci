@@ -12,7 +12,7 @@ const parseMetadata = (reportComment) => {
 const statusIcon = (suite) => {
   let ret = ':hourglass_flowing_sand:';
   if (suite.status === 'completed') {
-    ret = suite.conclusion === 'success' ? ':heavy_check_mark:' : ':cross_mark:';
+    ret = suite.conclusion === 'success' ? ':heavy_check_mark:' : ':x:';
   }
   return ret;
 };

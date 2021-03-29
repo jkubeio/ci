@@ -39,7 +39,7 @@ Started new GH workflow run for https://github.com/eclipse/jkube/pull/1337.
 
 :gear: [JKube E2E Tests Mocked (313373)](https://github.com/jkubeio/ci/actions/runs/313373) :heavy_check_mark:
 - :hourglass_flowing_sand: [Job 1](https://github.com/jkubeio/ci/runs/13371)
-- :cross_mark: [Job 2](https://github.com/jkubeio/ci/runs/13372)
+- :x: [Job 2](https://github.com/jkubeio/ci/runs/13372)
     `);
     });
   });
