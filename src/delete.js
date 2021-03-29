@@ -18,8 +18,14 @@ const testComment = async () => {
   console.log(comment);
 };
 
+const testPR = async () => {
+  const pr = await require('./pull-requests').get();
+  console.log(pr);
+};
+
 // Hacky way to remove warning
 console.log(testWorkflow);
 console.log(testComment);
+console.log(testPR);
 
-testWorkflow().then(() => process.exit(0));
+testPR().then(() => process.exit(0));

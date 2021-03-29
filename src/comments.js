@@ -28,7 +28,7 @@ const createReportComment = async () => {
     issue_number: config.pr,
     body: `${report.HEADER}`
   });
-  return comment;
+  return comment.data;
 };
 
 const updateReportComment = async () => {

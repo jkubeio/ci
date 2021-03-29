@@ -1,5 +1,7 @@
+const child_process = require('child_process');
 const comments = require('./comments');
 const config = require('./config');
+const pullRequests = require('./pull-requests');
 const report = require('./report');
 const workflows = require('./workflows');
 
@@ -24,8 +26,21 @@ const abortPrevious = async () => {
   }
 };
 
+const checkOutPRBranch = async () => {
+  console.log(`Checking out JKube repository for PR...`);
+  await pullRequests.checkOut();
+  try {
+    console.log(`Installing JKube project from PR...`);
+    child_process.execSync(`mvn -f jkube/pom.xml -B -DskipTests clean install`, {
+      stdio: 'inherit'
+    });
+  } catch (error) {
+    throw new Error(`Problem executing Maven Install for JKube:\n${err.status}: ${err.message}`);
+  }
+};
+
 const actionInit = async () => {
-  const initActions = [abortPrevious, comments.updateReportComment];
+  const initActions = [abortPrevious, comments.updateReportComment, checkOutPRBranch];
   for (const func of initActions) {
     await func();
   }
