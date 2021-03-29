@@ -35,6 +35,13 @@ const updateReportComment = async (finished = false) => {
   let reportComment = await getReportComment();
   if (!reportComment) {
     reportComment = await createReportComment();
+  } else {
+    const metadata = report.parseMetadata(reportComment);
+    if (metadata && metadata.runId && parseInt(metadata.runId, 10) !== parseInt(config.runId, 10)) {
+      throw new Error(
+        `Current comment.runId (${metadata.runId}) doesn't match workflow's runId (${config.runId}, aborting task`
+      );
+    }
   }
   const workflowRun = await workflow.get();
   const jobs = await workflow.jobs();
