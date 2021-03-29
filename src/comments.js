@@ -31,19 +31,24 @@ const createReportComment = async () => {
   return comment.data;
 };
 
+const isWorkflowOutdated = async ({reportComment, workflowRun}) => {
+  const metadata = report.parseMetadata(reportComment);
+  if (metadata && metadata.runId && parseInt(metadata.runId, 10) !== parseInt(config.runId, 10)) {
+    const activeWorkflow = await workflow.getWorkflowRun(metadata.runId);
+    return new Date(activeWorkflow.created_at) > new Date(workflowRun.created_at);
+  }
+};
+
 const updateReportComment = async (finished = false) => {
+  const workflowRun = await workflow.get();
   let reportComment = await getReportComment();
   if (!reportComment) {
     reportComment = await createReportComment();
-  } else {
-    const metadata = report.parseMetadata(reportComment);
-    if (metadata && metadata.runId && parseInt(metadata.runId, 10) !== parseInt(config.runId, 10)) {
-      throw new Error(
-        `Current comment.runId (${metadata.runId}) doesn't match workflow's runId (${config.runId}, aborting task`
-      );
-    }
+  } else if (await isWorkflowOutdated({reportComment, workflowRun})) {
+    throw new Error(
+      `Current workflow runId (${config.runId}}) is outdated, newer Workflow runId detected, aborting task`
+    );
   }
-  const workflowRun = await workflow.get();
   const jobs = await workflow.jobs();
   await octokit.issues.updateComment({
     owner: config.owner,
