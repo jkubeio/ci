@@ -13,6 +13,8 @@ const statusIcon = (suite) => {
   let ret = ':hourglass_flowing_sand:';
   if (suite.status === 'completed') {
     ret = suite.conclusion === 'success' ? ':heavy_check_mark:' : ':x:';
+  } else if (suite.status === 'queued') {
+    ret = ':hand:';
   }
   return ret;
 };

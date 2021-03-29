@@ -34,4 +34,4 @@ console.log(testComment);
 console.log(testPR);
 console.log(testJobs);
 
-testWorkflow().then(() => process.exit(0));
+testJobs().then(() => process.exit(0));
