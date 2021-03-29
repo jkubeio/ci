@@ -10,9 +10,9 @@ const cancelWorkflowRun = (runId) =>
 
 const get = () =>
   octokit.actions.getWorkflowRun({
-    owner: config.ciRepo,
-    repo: config.ciOwner,
-    run_id: config.runId
+    owner: config.ciOwner,
+    repo: config.ciRepo,
+    run_id: parseInt(config.runId, 10)
   });
 
 module.exports = {

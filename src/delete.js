@@ -1,12 +1,16 @@
+const config = require('./config');
 const octokit = require('./octokit');
+const workflows = require('./workflows');
 
 const testWorkflow = async () => {
-  const workflows = await octokit.actions.listWorkflowRuns({
-    owner: 'jkubeio',
-    repo: 'ci',
+  const wfrl = await octokit.actions.listWorkflowRuns({
+    owner: config.ciOwner,
+    repo: config.ciRepo,
     workflow_id: 'e2e.yml'
   });
-  console.log(workflows);
+  console.log(wfrl);
+  const workflow = await workflows.get();
+  console.log(workflow);
 };
 
 const testComment = async () => {
@@ -16,5 +20,6 @@ const testComment = async () => {
 
 // Hacky way to remove warning
 console.log(testWorkflow);
+console.log(testComment);
 
-testComment().then(() => process.exit(0));
+testWorkflow().then(() => process.exit(0));
