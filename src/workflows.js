@@ -5,7 +5,7 @@ const cancelWorkflowRun = (runId) =>
   octokit.actions.cancelWorkflowRun({
     owner: config.ciOwner,
     repo: config.ciRepo,
-    run_id: runId
+    run_id: parseInt(runId, 10)
   });
 
 const get = () =>

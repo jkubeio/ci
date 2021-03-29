@@ -1,4 +1,5 @@
 const comments = require('./comments');
+const config = require('./config');
 const report = require('./report');
 const workflows = require('./workflows');
 
@@ -7,9 +8,12 @@ const abortPrevious = async () => {
   if (!previousReportComment) {
     return;
   }
-  console.log('Aborting previous run');
+  console.log(`Found previous CI execution (#${config.pr}`);
   const metadata = report.parseMetadata(previousReportComment);
-  await workflows.cancelWorkflowRun(metadata.runId);
+  if (metadata && metadata.runId) {
+    console.log(`Aborting previous run: ${metadata.runId}`);
+    await workflows.cancelWorkflowRun(metadata.runId);
+  }
 };
 
 const actionInit = async () => {
