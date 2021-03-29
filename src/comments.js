@@ -21,13 +21,15 @@ const getReportComment = async () => {
   return reportComments.length > 0 ? reportComments[0] : null;
 };
 
-const createReportComment = async () =>
-  await octokit.issues.createComment({
+const createReportComment = async () => {
+  const comment = await octokit.issues.createComment({
     owner: config.owner,
     repo: config.repo,
     issue_number: config.pr,
     body: `${report.HEADER}`
-  }).data;
+  });
+  return comment;
+};
 
 const updateReportComment = async () => {
   let reportComment = await getReportComment();

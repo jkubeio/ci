@@ -8,14 +8,19 @@ const cancelWorkflowRun = (runId) =>
     run_id: parseInt(runId, 10)
   });
 
-const get = async () =>
-  await octokit.actions.getWorkflowRun({
+const getWorkflowRun = async (runId) => {
+  const workflow = await octokit.actions.getWorkflowRun({
     owner: config.ciOwner,
     repo: config.ciRepo,
-    run_id: parseInt(config.runId, 10)
-  }).data;
+    run_id: parseInt(runId, 10)
+  });
+  return workflow.data;
+};
+
+const get = () => getWorkflowRun(config.runId);
 
 module.exports = {
   cancelWorkflowRun,
+  getWorkflowRun,
   get
 };
