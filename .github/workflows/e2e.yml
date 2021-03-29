@@ -19,4 +19,7 @@ jobs:
         run: npm install
       - name: Bootstrap
         run: |
-          node src/index.js init --pr=${{ github.event.client_payload.pr }}
+          node src/index.js init                               \
+            --pr=${{ github.event.client_payload.pr }}         \
+            --jobId=${{ github.job }}                          \
+            --runId=${{ github.run_id }}

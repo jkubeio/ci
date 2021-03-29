@@ -1,5 +1,7 @@
 const DEFAULT_CONFIG_VALUES = {
-  ciRepo: 'https://github.com/jkubeio/ci',
+  ciOwner: 'jkubeio',
+  ciRepo: 'ci',
+  ciRepoUrl: 'https://github.com/jkubeio/ci',
   user: 'manusa',
   owner: 'eclipse',
   repo: 'jkube'
