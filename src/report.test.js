@@ -12,7 +12,8 @@ describe('report module test suite', () => {
         event: 'repository_dispatch',
         status: 'completed',
         conclusion: 'success',
-        url: 'https://api.github.com/repos/jkubeio/ci/actions/runs/313373'
+        url: 'https://api.github.com/repos/jkubeio/ci/actions/runs/313373',
+        html_url: 'https://github.com/jkubeio/ci/actions/runs/313373'
       };
       // When
       const result = report.template({workflowRun});
@@ -23,7 +24,7 @@ describe('report module test suite', () => {
 
 Started new GH workflow run for https://github.com/eclipse/jkube/pull/1337.
 
-:gear: [JKube E2E Tests Mocked (313373)](https://api.github.com/repos/jkubeio/ci/actions/runs/313373) :heavy_check_mark:
+:gear: [JKube E2E Tests Mocked (313373)](https://github.com/jkubeio/ci/actions/runs/313373) :heavy_check_mark:
     `);
     });
   });

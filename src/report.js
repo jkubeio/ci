@@ -24,7 +24,7 @@ const template = ({workflowRun}) => {
 
 Started new GH workflow run for https://github.com/${config.owner}/${config.repo}/pull/${config.pr}.
 
-:gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.url}) ${workflowStatus}
+:gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.html_url}) ${workflowStatus}
     `;
 };
 
