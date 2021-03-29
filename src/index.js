@@ -1,5 +1,6 @@
 const actions = {
-  init: require('./action-init')
+  init: require('./action-init'),
+  'update-status': require('./action-update-status')
 };
 
 const exec = async () => {

@@ -37,11 +37,12 @@ const updateReportComment = async () => {
     reportComment = await createReportComment();
   }
   const workflowRun = await workflow.get();
+  const jobs = await workflow.jobs();
   await octokit.issues.updateComment({
     owner: config.owner,
     repo: config.repo,
     comment_id: reportComment.id,
-    body: report.template({workflowRun})
+    body: report.template({workflowRun, jobs})
   });
 };
 

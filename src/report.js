@@ -9,22 +9,27 @@ const parseMetadata = (reportComment) => {
   return {};
 };
 
-const template = ({workflowRun}) => {
+const statusIcon = (suite) => {
+  let ret = ':hourglass_flowing_sand:';
+  if (suite.status === 'completed') {
+    ret = suite.conclusion === 'success' ? ':heavy_check_mark:' : ':cross_mark:';
+  }
+  return ret;
+};
+
+const template = ({workflowRun, jobs}) => {
   const metadata = {
     pr: config.pr,
     runId: config.runId
   };
-  let workflowStatus = ':hourglass_flowing_sand:';
-  if (workflowRun.status === 'completed' && workflowRun.conclusion === 'success') {
-    workflowStatus = ':heavy_check_mark:';
-  }
   return `${HEADER}
 <!-- METADATA ${JSON.stringify(metadata)} -->
 ### Eclipse JKube [CI Report](${config.ciRepoUrl})
 
 Started new GH workflow run for https://github.com/${config.owner}/${config.repo}/pull/${config.pr}.
 
-:gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.html_url}) ${workflowStatus}
+:gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.html_url}) ${statusIcon(workflowRun)}
+${jobs.jobs.map((job) => `- ${statusIcon(job)} [${job.name}](${job.html_url})`).join('\n')}
     `;
 };
 

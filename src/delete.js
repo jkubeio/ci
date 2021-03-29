@@ -23,9 +23,15 @@ const testPR = async () => {
   console.log(pr);
 };
 
+const testJobs = async () => {
+  const jobs = await require('./workflows').jobs();
+  console.log(jobs);
+};
+
 // Hacky way to remove warning
 console.log(testWorkflow);
 console.log(testComment);
 console.log(testPR);
+console.log(testJobs);
 
-testPR().then(() => process.exit(0));
+testJobs().then(() => process.exit(0));

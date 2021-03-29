@@ -15,8 +15,21 @@ describe('report module test suite', () => {
         url: 'https://api.github.com/repos/jkubeio/ci/actions/runs/313373',
         html_url: 'https://github.com/jkubeio/ci/actions/runs/313373'
       };
+      const jobs = {
+        total_count: 2,
+        jobs: [
+          {id: 13371, html_url: 'https://github.com/jkubeio/ci/runs/13371', name: 'Job 1'},
+          {
+            id: 13372,
+            html_url: 'https://github.com/jkubeio/ci/runs/13372',
+            name: 'Job 2',
+            status: 'completed',
+            conclusion: 'failure'
+          }
+        ]
+      };
       // When
-      const result = report.template({workflowRun});
+      const result = report.template({workflowRun, jobs});
       // Then
       expect(result).toBe(`<!-- Eclipse JKube CI bot report -->
 <!-- METADATA {"pr":"1337","runId":"313373"} -->
@@ -25,6 +38,8 @@ describe('report module test suite', () => {
 Started new GH workflow run for https://github.com/eclipse/jkube/pull/1337.
 
 :gear: [JKube E2E Tests Mocked (313373)](https://github.com/jkubeio/ci/actions/runs/313373) :heavy_check_mark:
+- :hourglass_flowing_sand: [Job 1](https://github.com/jkubeio/ci/runs/13371)
+- :cross_mark: [Job 2](https://github.com/jkubeio/ci/runs/13372)
     `);
     });
   });
