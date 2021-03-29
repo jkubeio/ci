@@ -35,6 +35,7 @@ jobs:
             --runId=${{ github.run_id }}
 
   minikube:
+    if: ${{ false }}
     name: K8S
     needs: bootstrap-CI-test-run
     runs-on: ubuntu-latest
@@ -100,6 +101,7 @@ jobs:
             --runId=${{ github.run_id }}
 
   openshift:
+    if: ${{ false }}
     name: OpenShift
     needs: bootstrap-CI-test-run
     runs-on: ubuntu-18.04
@@ -182,10 +184,66 @@ jobs:
             --jobId=${{ github.job }}                          \
             --runId=${{ github.run_id }}
 
+  windows:
+    name: Windows
+    needs: bootstrap-CI-test-run
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Restore cache .m2 and JKube
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ github.workspace }}/jkube
+            ~/.m2/repository
+          key: cache-e2e-bootstrap-${{ github.run_id }}
+      - name: Update PR report status
+        run: |
+          node src/index.js update-status  --pr=${{ github.event.client_payload.pr }} --runId=${{ github.run_id }}
+      - name: Setup Java 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Debug
+        run: dir
+      - name: Debug 2
+        run: dir jkube\
+      - name: Install JKube
+        shell: cmd
+        run: mvn -f jkube\pom.xml -B -DskipTests clean install
+      - name: Checkout JKube Integration Tests Repository
+        shell: cmd
+        run: |
+          git clone %JKUBE_IT_REPOSITORY%
+          cd %JKUBE_IT_DIR%
+          git checkout "%JKUBE_IT_REVISION%"
+      - name: Install and Run Integration Tests
+        run: |
+          $env:JKUBE_VERSION = (mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression='project.version' -q -DforceStdout) | Out-String
+          echo $env:JKUBE_VERSION
+          cd $env:JKUBE_IT_DIR
+          mvn -B -PWindows clean verify -D'jkube.version'=$env:JKUBE_VERSION
+      - name: Consolidate reports
+        if: always()
+        run: |
+          mkdir reports
+          cp $env:JKUBE_IT_DIR\it\target\jkube-test-report.txt reports
+      - name: Save reports as artifact
+        if: always()
+        uses: actions/upload-artifact@master
+        with:
+          name: Test reports (Windows)
+          path: ./reports
+      - name: Update PR report status
+        if: always()
+        run: |
+          node src/index.js update-status  --pr=${{ github.event.client_payload.pr }} --runId=${{ github.run_id }}
+
   teardown:
     name: Finish CI test run
     runs-on: ubuntu-latest
-    needs: [minikube, openshift]
+    needs: [minikube, openshift, windows]
     if: always()
     steps:
       - name: Checkout
