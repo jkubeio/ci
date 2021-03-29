@@ -25,7 +25,8 @@ describe('report module test suite', () => {
             name: 'Job 2',
             status: 'completed',
             conclusion: 'failure'
-          }
+          },
+          {id: 13373, html_url: 'https://github.com/jkubeio/ci/runs/13373', name: 'Finish CI test run'}
         ]
       };
       // When

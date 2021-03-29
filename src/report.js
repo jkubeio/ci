@@ -17,19 +17,20 @@ const statusIcon = (suite) => {
   return ret;
 };
 
-const template = ({workflowRun, jobs}) => {
+const template = ({workflowRun, jobs, finished = false}) => {
   const metadata = {
     pr: config.pr,
     runId: config.runId
   };
+  const applicableJobs = jobs.jobs.filter((job) => job.name !== 'Finish CI test run');
   return `${HEADER}
 <!-- METADATA ${JSON.stringify(metadata)} -->
 ### Eclipse JKube [CI Report](${config.ciRepoUrl})
 
 Started new GH workflow run for https://github.com/${config.owner}/${config.repo}/pull/${config.pr}.
 
-:gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.html_url}) ${statusIcon(workflowRun)}
-${jobs.jobs.map((job) => `- ${statusIcon(job)} [${job.name}](${job.html_url})`).join('\n')}
+:gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.html_url}) ${finished ? '' : statusIcon(workflowRun)}
+${applicableJobs.map((job) => `- ${statusIcon(job)} [${job.name}](${job.html_url})`).join('\n')}
     `;
 };
 

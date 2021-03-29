@@ -31,7 +31,7 @@ const createReportComment = async () => {
   return comment.data;
 };
 
-const updateReportComment = async () => {
+const updateReportComment = async (finished = false) => {
   let reportComment = await getReportComment();
   if (!reportComment) {
     reportComment = await createReportComment();
@@ -42,7 +42,7 @@ const updateReportComment = async () => {
     owner: config.owner,
     repo: config.repo,
     comment_id: reportComment.id,
-    body: report.template({workflowRun, jobs})
+    body: report.template({workflowRun, jobs, finished})
   });
 };
 
