@@ -26,21 +26,8 @@ const abortPrevious = async () => {
   }
 };
 
-const checkOutPRBranch = async () => {
-  console.log(`Checking out JKube repository for PR...`);
-  await pullRequests.checkOut();
-  try {
-    console.log(`Installing JKube project from PR...`);
-    child_process.execSync(`mvn -f jkube/pom.xml -B -DskipTests clean install`, {
-      stdio: 'inherit'
-    });
-  } catch (error) {
-    throw new Error(`Problem executing Maven Install for JKube:\n${err.status}: ${err.message}`);
-  }
-};
-
 const actionInit = async () => {
-  const initActions = [abortPrevious, comments.updateReportComment, checkOutPRBranch];
+  const initActions = [abortPrevious, comments.updateReportComment];
   for (const func of initActions) {
     await func();
   }

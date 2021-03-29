@@ -2,6 +2,8 @@ const DEFAULT_CONFIG_VALUES = {
   ciOwner: 'jkubeio',
   ciRepo: 'ci',
   ciRepoUrl: 'https://github.com/jkubeio/ci',
+  itRepoGit: 'https://github.com/jkubeio/jkube-integration-tests.git',
+  itRevision: 'main',
   user: 'manusa',
   owner: 'eclipse',
   repo: 'jkube'

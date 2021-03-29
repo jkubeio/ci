@@ -1,4 +1,5 @@
 const actions = {
+  checkout: require('./action-checkout'),
   finish: require('./action-finish'),
   init: require('./action-init'),
   'update-status': require('./action-update-status')
