@@ -46,9 +46,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        kubernetes: [v1.20.1,v1.12.0]
+        kubernetes: [v1.20.1,v1.12.0]
 #        suite: ['quarkus','quarkus-native','springboot','webapp','other','dockerfile']
-        kubernetes: [v1.20.1]
         suite: ['quarkus','quarkus-native','springboot']
     steps:
       - name: Checkout
@@ -99,6 +98,13 @@ jobs:
         with:
           name: Test reports (Minikube ${{ matrix.kubernetes }}-${{ matrix.suite }})
           path: ./reports
+      - name: Update PR report status
+        if: always()
+        run: |
+          node src/index.js update-status                      \
+            --pr=${{ github.event.client_payload.pr }}         \
+            --jobId=${{ github.job }}                          \
+            --runId=${{ github.run_id }}
 
   teardown:
     name: Finish CI test run
