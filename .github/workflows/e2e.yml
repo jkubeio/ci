@@ -153,7 +153,7 @@ jobs:
         run: |
           JKUBE_VERSION=$(mvn -f jkube/pom.xml -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec) \
           && cd jkube-it \
-          && ./mvnw -B -PKubernetes,${{ matrix.suite }} verify -Djkube.version="$JKUBE_VERSION"
+          && ./mvnw -B -POpenShift,${{ matrix.suite }} verify -Djkube.version="$JKUBE_VERSION" -Djunit.jupiter.execution.parallel.config.fixed.parallelism=4
       - name: Consolidate reports
         if: always()
         run: |
