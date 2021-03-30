@@ -25,6 +25,7 @@ const template = ({workflowRun, jobs, finished = false}) => {
     runId: config.runId
   };
   const applicableJobs = jobs.jobs.filter((job) => job.name !== 'Finish CI test run');
+  applicableJobs.sort((job1, job2) => job1.name.localeCompare(job2.name));
   return `${HEADER}
 <!-- METADATA ${JSON.stringify(metadata)} -->
 ### Eclipse JKube [CI Report](${config.ciRepoUrl})

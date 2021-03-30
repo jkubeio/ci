@@ -18,7 +18,6 @@ describe('report module test suite', () => {
       const jobs = {
         total_count: 2,
         jobs: [
-          {id: 13371, html_url: 'https://github.com/jkubeio/ci/runs/13371', name: 'Job 1'},
           {
             id: 13372,
             html_url: 'https://github.com/jkubeio/ci/runs/13372',
@@ -26,6 +25,7 @@ describe('report module test suite', () => {
             status: 'completed',
             conclusion: 'failure'
           },
+          {id: 13371, html_url: 'https://github.com/jkubeio/ci/runs/13371', name: 'Job 1'},
           {id: 13373, html_url: 'https://github.com/jkubeio/ci/runs/13373', name: 'Finish CI test run'}
         ]
       };
