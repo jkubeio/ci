@@ -1,13 +1,26 @@
 const child_process = require('child_process');
+const fs = require('fs');
+const path = require('path');
 const config = require('./config');
 const pullRequests = require('./pull-requests');
 
+const rmDir = (relativeSrcPath) => {
+  const dir = path.resolve(__dirname, '..', relativeSrcPath);
+  if (fs.existsSync(dir)) {
+    fs.rmdirSync(dir, {recursive: true});
+  }
+};
+
 const checkOutPRBranch = async () => {
   console.log(`Checking out JKube repository for PR...`);
+  rmDir(config.jkubeDir);
   await pullRequests.checkOut();
+};
+
+const installJKube = () => {
   try {
     console.log(`Installing JKube project from PR...`);
-    child_process.execSync(`mvn -f jkube/pom.xml -B -DskipTests clean install`, {
+    child_process.execSync(`mvn -B -f ${config.jkubeDir}/pom.xml -DskipTests clean install`, {
       stdio: 'inherit'
     });
   } catch (error) {
@@ -17,8 +30,9 @@ const checkOutPRBranch = async () => {
 
 const checkOutITRepo = async () => {
   console.log(`Checking out JKube IT (${config.itRepoGit} repository (${config.itRevision})...`);
+  rmDir(config.jkubeITDir);
   try {
-    child_process.execSync(`git clone ${config.itRepoGit} --branch ${config.itRevision} jkube-it`, {
+    child_process.execSync(`git clone ${config.itRepoGit} --branch ${config.itRevision} ${config.jkubeITDir}`, {
       stdio: 'inherit'
     });
   } catch (error) {
@@ -27,7 +41,7 @@ const checkOutITRepo = async () => {
 };
 
 const actionCheckout = async () => {
-  for (const func of [checkOutPRBranch, checkOutITRepo]) {
+  for (const func of [checkOutPRBranch, installJKube, checkOutITRepo]) {
     await func();
   }
 };
