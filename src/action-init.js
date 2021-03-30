@@ -19,7 +19,7 @@ const abortPrevious = async () => {
   const metadata = report.parseMetadata(previousReportComment);
   if (metadata && metadata.runId) {
     console.log(`Checking previous run for #${config.pr} - ${metadata.runId}`);
-    const previousRun = await workflows.get(metadata.runId);
+    const previousRun = await workflows.getWorkflowRun(metadata.runId);
     if (shouldAbort({metadata, previousRun})) {
       try {
         console.log(`Aborting previous run: ${metadata.runId} (${previousRun.status})`);
