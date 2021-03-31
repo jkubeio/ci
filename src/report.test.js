@@ -13,7 +13,8 @@ describe('report module test suite', () => {
         status: 'completed',
         conclusion: 'success',
         url: 'https://api.github.com/repos/jkubeio/ci/actions/runs/313373',
-        html_url: 'https://github.com/jkubeio/ci/actions/runs/313373'
+        html_url: 'https://github.com/jkubeio/ci/actions/runs/313373',
+        updated_at: '2015-10-21T04:29:00.000Z'
       };
       const jobs = {
         total_count: 2,
@@ -36,7 +37,7 @@ describe('report module test suite', () => {
 <!-- METADATA {"pr":"1337","runId":"313373"} -->
 ### Eclipse JKube [CI Report](https://github.com/jkubeio/ci)
 
-Started new GH workflow run for https://github.com/eclipse/jkube/pull/1337.
+Started new GH workflow run for https://github.com/eclipse/jkube/pull/1337 (_2015-10-21T04:29:00.000Z_)
 
 :gear: [JKube E2E Tests Mocked (313373)](https://github.com/jkubeio/ci/actions/runs/313373) :heavy_check_mark:
 - :hourglass_flowing_sand: [Job 1](https://github.com/jkubeio/ci/runs/13371)

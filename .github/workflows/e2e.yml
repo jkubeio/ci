@@ -8,7 +8,7 @@ env:
 
 jobs:
   bootstrap-CI-test-run:
-    name: Bootstrap CI test run
+    name: Bootstrap CI test run (#${{ github.event.client_payload.pr }})
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,7 +37,7 @@ jobs:
             --runId=${{ github.run_id }}
 
   minikube:
-    name: K8S
+    name: K8S (#${{ github.event.client_payload.pr }})
     needs: bootstrap-CI-test-run
     runs-on: ubuntu-latest
     strategy:
@@ -96,7 +96,7 @@ jobs:
             --runId=${{ github.run_id }}
 
   openshift:
-    name: OpenShift
+    name: OpenShift (#${{ github.event.client_payload.pr }})
     needs: bootstrap-CI-test-run
     runs-on: ubuntu-18.04
     strategy:
@@ -173,7 +173,7 @@ jobs:
             --runId=${{ github.run_id }}
 
   windows:
-    name: Windows
+    name: Windows (#${{ github.event.client_payload.pr }})
     needs: bootstrap-CI-test-run
     runs-on: windows-latest
     steps:

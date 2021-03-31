@@ -30,7 +30,9 @@ const template = ({workflowRun, jobs, finished = false}) => {
 <!-- METADATA ${JSON.stringify(metadata)} -->
 ### Eclipse JKube [CI Report](${config.ciRepoUrl})
 
-Started new GH workflow run for https://github.com/${config.owner}/${config.repo}/pull/${config.pr}.
+Started new GH workflow run for https://github.com/${config.owner}/${config.repo}/pull/${config.pr} (_${
+    workflowRun.updated_at
+  }_)
 
 :gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.html_url}) ${finished ? '' : statusIcon(workflowRun)}
 ${applicableJobs.map((job) => `- ${statusIcon(job)} [${job.name}](${job.html_url})`).join('\n')}
