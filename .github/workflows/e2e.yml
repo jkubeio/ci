@@ -37,7 +37,7 @@ jobs:
             --runId=${{ github.run_id }}
 
   minikube:
-    name: K8S (#${{ github.event.client_payload.pr }})
+    name: K8S ${{ matrix.kubernetes }} ${{ matrix.suite }} (#${{ github.event.client_payload.pr }})
     needs: bootstrap-CI-test-run
     runs-on: ubuntu-latest
     strategy:
@@ -96,7 +96,7 @@ jobs:
             --runId=${{ github.run_id }}
 
   openshift:
-    name: OpenShift (#${{ github.event.client_payload.pr }})
+    name: OpenShift ${{ matrix.openshift }} ${{ matrix.suite }} (#${{ github.event.client_payload.pr }})
     needs: bootstrap-CI-test-run
     runs-on: ubuntu-18.04
     strategy:
