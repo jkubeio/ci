@@ -131,7 +131,6 @@ jobs:
             'firefox.*'                             \
             'ghc.*'                                 \
             'google-chrome.*'                       \
-            'heroku.*'                              \
             'libmagic.*'                            \
             'libmono.*'                             \
             'mono-.*'                               \
