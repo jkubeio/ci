@@ -18,7 +18,7 @@ const checkOut = async () => {
       stdio: 'inherit'
     });
   } catch (error) {
-    throw new Error(`Couldn't check out #${config.pr}:\n${err.status}: ${err.message}`);
+    throw new Error(`Couldn't check out #${config.pr}:\n${error.status}: ${error.message}`);
   }
 };
 

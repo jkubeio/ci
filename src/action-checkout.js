@@ -24,7 +24,7 @@ const installJKube = () => {
       stdio: 'inherit'
     });
   } catch (error) {
-    throw new Error(`Problem executing Maven Install for JKube:\n${err.status}: ${err.message}`);
+    throw new Error(`Problem executing Maven Install for JKube:\n${error.status}: ${error.message}`);
   }
 };
 
@@ -36,7 +36,7 @@ const checkOutITRepo = async () => {
       stdio: 'inherit'
     });
   } catch (error) {
-    throw new Error(`Couldn't check out JKube IT repository:\n${err.status}: ${err.message}`);
+    throw new Error(`Couldn't check out JKube IT repository:\n${error.status}: ${error.message}`);
   }
 };
 
