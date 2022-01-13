@@ -188,7 +188,9 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adopt'
+          distribution: 'temurin'
+      - name: Allow long Git filenames in Windows
+        run: git config --system core.longpaths true
       - name: Update PR report status
         run: |
           node src/index.js update-status --pr=${{ github.event.client_payload.pr }} --runId=${{ github.run_id }}
