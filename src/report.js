@@ -29,6 +29,14 @@ ${artifact.content}
 </details>
 `;
 
+const testResults = (artifacts) => `<details>
+  <summary><h4>Test results</h4></summary>
+
+  <blockquote>
+  ${artifacts.map(artifactSection).join('\n')}
+  </blockquote>
+</details>`;
+
 const template = ({workflowRun, jobs, artifacts, finished = false}) => {
   const metadata = {
     pr: config.pr,
@@ -48,13 +56,7 @@ Started new GH workflow run for https://github.com/${config.owner}/${config.repo
 :gear: [${workflowRun.name} (${workflowRun.id})](${workflowRun.html_url}) ${finished ? '' : statusIcon(workflowRun)}
 ${applicableJobs.map((job) => `- ${statusIcon(job)} [${job.name}](${job.html_url})`).join('\n')}
 
-<details>
-  <summary><h4>Test results</h4></summary>
-
-  <blockquote>
-  ${artifacts.map(artifactSection).join('\n')}
-  </blockquote>
-</details>
+${artifacts.length === 0 ? '' : testResults(artifacts)}
     `;
 };
 
