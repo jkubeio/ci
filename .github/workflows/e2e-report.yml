@@ -1,0 +1,20 @@
+name: JKube E2E Report
+
+on:
+  repository_dispatch:
+    types: [generate_report]
+env:
+  ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+
+jobs:
+  generate_report:
+    name: Generate E2E report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update PR report status
+        run: |
+          node src/index.js finish                             \
+            --pr=${{ github.event.client_payload.pr }}         \
+            --runId=${{ github.event.client_payload.e2e_run_id }}
