@@ -167,7 +167,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@master
         with:
-          name: Test reports (Minikube ${{ matrix.kubernetes }}-${{ matrix.suite }})
+          name: Test reports (OpenShift ${{ matrix.openshift }}-${{ matrix.suite }})
           path: ./reports
       - name: Update PR report status
         if: always()
