@@ -219,16 +219,17 @@ jobs:
         run: |
           node src/index.js update-status  --pr=${{ github.event.client_payload.pr }} --runId=${{ github.run_id }}
 
+  # Trigger the e2e-report workflow so that the complete report gets published
   teardown:
     name: Finish CI test run
     runs-on: ubuntu-latest
     needs: [minikube, openshift, windows]
     if: always()
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Update PR report status
+      - name: Trigger report workflow
         run: |
-          node src/index.js finish                             \
-            --pr=${{ github.event.client_payload.pr }}         \
-            --runId=${{ github.run_id }}
+          curl -X POST                                                                             \
+            https://api.github.com/repos/${{ github.repository }}/dispatches                       \
+            -H "Accept: application/vnd.github.v3+json"                                            \
+            -u "${{ secrets.GH_ACCESS_TOKEN_USER }}:${{ secrets.ACCESS_TOKEN }}"                   \
+            -d '{"event_type":"generate_report","client_payload":{"pr":"${{ github.event.client_payload.pr }}","e2e_run_id":"${{ github.run_id }}"}}'
