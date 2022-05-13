@@ -62,7 +62,7 @@ const updateReportComment = async (finished = false) => {
     );
   }
   const jobs = await workflow.jobs();
-  const artifacts = finished ? [] : await processArtifacts();
+  const artifacts = finished ? await processArtifacts() : [];
   await octokit.issues.updateComment({
     owner: config.owner,
     repo: config.repo,
