@@ -1,3 +1,4 @@
+const AdmZip = require('adm-zip');
 const config = require('./config');
 const octokit = require('./octokit');
 
@@ -27,9 +28,38 @@ const jobs = async () => {
   });
   return ret.data;
 };
+
+const artifacts = async () => {
+  const ret = await octokit.actions.listWorkflowRunArtifacts({
+    owner: config.ciOwner,
+    repo: config.ciRepo,
+    run_id: parseInt(config.runId, 10)
+  });
+  return ret.data;
+};
+
+const artifactDownloadUrl = async artifact => {
+  const ret = await octokit.actions.downloadArtifact({
+    owner: config.ciOwner,
+    repo: config.ciRepo,
+    artifact_id: artifact.id,
+    archive_format: 'zip'
+  });
+  return ret.url;
+};
+
+const artifactDownload = async artifact => {
+  const ret = await octokit.request(await artifactDownloadUrl(artifact));
+  const zip = new AdmZip(Buffer.from(ret.data));
+  const zipEntry = zip.getEntries().find(e => e.entryName === 'jkube-test-report.txt');
+  return zipEntry ? zipEntry.getData().toString('utf8') : '';
+};
+
 module.exports = {
+  artifacts,
+  artifactDownload,
   cancelWorkflowRun,
-  getWorkflowRun,
   get,
+  getWorkflowRun,
   jobs
 };
