@@ -39,6 +39,18 @@ const isWorkflowOutdated = async ({reportComment, workflowRun}) => {
   }
 };
 
+const processArtifacts = async () => {
+  const processedArtifacts = [];
+  const artifacts = (await workflow.artifacts()).artifacts ?? [];
+  for (const artifact of artifacts) {
+    processedArtifacts.push({
+      name: artifact.name,
+      content: await workflow.artifactDownload(artifact)
+    });
+  }
+  return processedArtifacts;
+};
+
 const updateReportComment = async (finished = false) => {
   const workflowRun = await workflow.get();
   let reportComment = await getReportComment();
@@ -50,11 +62,12 @@ const updateReportComment = async (finished = false) => {
     );
   }
   const jobs = await workflow.jobs();
+  const artifacts = finished ? [] : await processArtifacts();
   await octokit.issues.updateComment({
     owner: config.owner,
     repo: config.repo,
     comment_id: reportComment.id,
-    body: report.template({workflowRun, jobs, finished})
+    body: report.template({workflowRun, jobs, artifacts, finished})
   });
 };
 

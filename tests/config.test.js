@@ -1,7 +1,7 @@
 describe('config module test suite', () => {
   let config;
   beforeEach(() => {
-    config = require('./config');
+    config = require('../src/config');
   });
   describe('computeAuth', () => {
     test('with no token, should throw Error', () => {

@@ -1,37 +1,20 @@
 describe('report module test suite', () => {
+  const ghApiData = require('./gh-api.data');
   let report;
   beforeEach(() => {
-    report = require('./report');
+    report = require('../src/report');
   });
   describe('template', () => {
     test('With completed workflow run', () => {
       // Given
-      const workflowRun = {
-        id: 313373,
-        name: 'JKube E2E Tests Mocked',
-        event: 'repository_dispatch',
-        status: 'completed',
-        conclusion: 'success',
-        url: 'https://api.github.com/repos/jkubeio/ci/actions/runs/313373',
-        html_url: 'https://github.com/jkubeio/ci/actions/runs/313373',
-        updated_at: '2015-10-21T04:29:00.000Z'
-      };
-      const jobs = {
-        total_count: 2,
-        jobs: [
-          {
-            id: 13372,
-            html_url: 'https://github.com/jkubeio/ci/runs/13372',
-            name: 'Job 2',
-            status: 'completed',
-            conclusion: 'failure'
-          },
-          {id: 13371, html_url: 'https://github.com/jkubeio/ci/runs/13371', name: 'Job 1'},
-          {id: 13373, html_url: 'https://github.com/jkubeio/ci/runs/13373', name: 'Finish CI test run'}
-        ]
-      };
+      const workflowRun = ghApiData.getWorkflowRunCompletedSuccess().data;
+      const jobs = ghApiData.listJobsForWorkflowRun().data;
+      const artifacts = [{
+        name: 'Artifact',
+        content: '[✓] All tests (0) passed successfully!!!'
+      }]
       // When
-      const result = report.template({workflowRun, jobs});
+      const result = report.template({workflowRun, jobs, artifacts});
       // Then
       expect(result).toBe(`<!-- Eclipse JKube CI bot report -->
 <!-- METADATA {"pr":"1337","runId":"313373"} -->
@@ -40,8 +23,27 @@ describe('report module test suite', () => {
 Started new GH workflow run for https://github.com/eclipse/jkube/pull/1337 (_2015-10-21T04:29:00.000Z_)
 
 :gear: [JKube E2E Tests Mocked (313373)](https://github.com/jkubeio/ci/actions/runs/313373) :heavy_check_mark:
-- :hourglass_flowing_sand: [Job 1](https://github.com/jkubeio/ci/runs/13371)
-- :x: [Job 2](https://github.com/jkubeio/ci/runs/13372)
+- :heavy_check_mark: [Bootstrap CI test run (#1337)](https://github.com/jkubeio/ci/runs/13371)
+- :hourglass_flowing_sand: [K8S v1.12.0 webapp (#1337)](https://github.com/jkubeio/ci/runs/13374)
+- :hand: [OpenShift v3.11.0 quarkus (#1337)](https://github.com/jkubeio/ci/runs/13372)
+- :x: [Windows (#1337)](https://github.com/jkubeio/ci/runs/13373)
+- :hourglass_flowing_sand: [Finish CI test run](https://github.com/jkubeio/ci/runs/13375)
+
+<details>
+  <summary><h4>Test results</h4></summary>
+
+  <blockquote>
+  
+<details>
+  <summary>:heavy_check_mark: Artifact</summary>
+
+  \`\`\`
+[✓] All tests (0) passed successfully!!!
+  \`\`\`
+</details>
+
+  </blockquote>
+</details>
     `);
     });
   });
