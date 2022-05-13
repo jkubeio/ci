@@ -38,7 +38,7 @@ const artifacts = async () => {
   return ret.data;
 };
 
-const artifactDownloadUrl = async artifact => {
+const artifactDownloadUrl = async (artifact) => {
   const ret = await octokit.actions.downloadArtifact({
     owner: config.ciOwner,
     repo: config.ciRepo,
@@ -48,10 +48,10 @@ const artifactDownloadUrl = async artifact => {
   return ret.url;
 };
 
-const artifactDownload = async artifact => {
+const artifactDownload = async (artifact) => {
   const ret = await octokit.request(await artifactDownloadUrl(artifact));
   const zip = new AdmZip(Buffer.from(ret.data));
-  const zipEntry = zip.getEntries().find(e => e.entryName === 'jkube-test-report.txt');
+  const zipEntry = zip.getEntries().find((e) => e.entryName === 'jkube-test-report.txt');
   return zipEntry ? zipEntry.getData().toString('utf8') : '';
 };
 

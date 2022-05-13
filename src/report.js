@@ -19,7 +19,7 @@ const statusIcon = (suite) => {
   return ret;
 };
 
-const artifactSection = artifact => `
+const artifactSection = (artifact) => `
 <details>
   <summary>${artifact.content.indexOf('[X]') < 0 ? ':heavy_check_mark:' : ':x:'} ${artifact.name}</summary>
 
@@ -36,7 +36,7 @@ const template = ({workflowRun, jobs, artifacts, finished = false}) => {
   };
   const applicableJobs = jobs.jobs.filter((job) => job.name !== 'Finish CI test run');
   applicableJobs.sort((job1, job2) => job1.name.localeCompare(job2.name));
-  jobs.jobs.filter((job) => job.name === 'Finish CI test run').forEach(j => applicableJobs.push(j));
+  jobs.jobs.filter((job) => job.name === 'Finish CI test run').forEach((j) => applicableJobs.push(j));
   return `${HEADER}
 <!-- METADATA ${JSON.stringify(metadata)} -->
 ### Eclipse JKube [CI Report](${config.ciRepoUrl})
