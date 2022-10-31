@@ -149,7 +149,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Setup OpenShift
-        uses: manusa/actions-setup-openshift@v1.1.2
+        uses: manusa/actions-setup-openshift@v1.1.4
         with:
           oc version: ${{ matrix.openshift }}
           github token: ${{ secrets.GITHUB_TOKEN }}
