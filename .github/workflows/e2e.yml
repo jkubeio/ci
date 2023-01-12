@@ -6,6 +6,9 @@ on:
 env:
   ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
+permissions:
+  contents: read
+
 jobs:
   bootstrap-CI-test-run:
     name: Bootstrap CI test run (#${{ github.event.client_payload.pr }})

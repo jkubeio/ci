@@ -6,6 +6,9 @@ on:
 env:
   ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
 
+permissions:
+  contents: read
+
 jobs:
   generate_report:
     name: Generate E2E report
