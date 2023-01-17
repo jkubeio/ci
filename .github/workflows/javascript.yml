@@ -10,6 +10,10 @@ jobs:
     name: Check
     runs-on: ubuntu-latest
     steps:
+#      - name: Harden Runner
+#        uses: step-security/harden-runner@8a1ef77ccd7a6d18b009c8cd833b00f49386b657
+#        with:
+#          egress-policy: audit
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup Node
