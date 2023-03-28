@@ -104,7 +104,7 @@ jobs:
   openshift:
     name: OpenShift ${{ matrix.openshift }} ${{ matrix.suite }} (#${{ github.event.client_payload.pr }})
     needs: bootstrap-CI-test-run
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -152,7 +152,7 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       - name: Setup OpenShift
-        uses: manusa/actions-setup-openshift@v1.1.4
+        uses: manusa/actions-setup-openshift@v1.1.5
         with:
           oc version: ${{ matrix.openshift }}
           github token: ${{ secrets.GITHUB_TOKEN }}
