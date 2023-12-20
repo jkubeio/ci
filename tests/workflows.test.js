@@ -22,7 +22,6 @@ describe('workflows module test suite', () => {
     expect(result).toMatchObject({total_count: 3, artifacts: expect.any(Array)});
   });
   test('artifactDownload', async () => {
-    octokit.request = jest.fn(ghApiData.artifactZip);
     const result = await workflows.artifactDownload(ghApiData.artifactsForWorkflowRun().data.artifacts[0]);
     expect(result).toContain('All tests (5) passed successfully!!!');
   });

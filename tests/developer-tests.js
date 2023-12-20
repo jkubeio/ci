@@ -44,4 +44,4 @@ const testUpdateReportComment = async () => {
   // IF TESTING STUFF; MAKE SURE TO DISABLE THE LAST LINE WHERE THE COMMENT IS ACTUALLY UPDATED
   await comments.updateReportComment(true);
 }
-testUpdateReportComment().then(() => process.exit(0));
+testArtifacts().then(() => process.exit(0));

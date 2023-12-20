@@ -86,7 +86,8 @@ const artifactsForWorkflowRun = () => ({
 
 const downloadArtifact = ({artifact_id= '1337-1337-1337-1337'}) => ({
   status: 200,
-  url: `https://pipelines.actions.githubusercontent.com/serviceHosts/${artifact_id}/_apis/pipelines/1/runs/2105/signedartifactscontent?artifactName=Test%20reports%20%28Minikube%20-other%29&urlExpires=2022-05-13T08%3A00%3A45.0241294Z&urlSigningMethod=HMACV2&urlSignature=PpyhCnM7L%2BtaxZuzu7s%2FtoOVx2ys0gSXdsN%2F5UQXsSI%3D`
+  url: `https://pipelines.actions.githubusercontent.com/serviceHosts/${artifact_id}/_apis/pipelines/1/runs/2105/signedartifactscontent?artifactName=Test%20reports%20%28Minikube%20-other%29&urlExpires=2022-05-13T08%3A00%3A45.0241294Z&urlSigningMethod=HMACV2&urlSignature=PpyhCnM7L%2BtaxZuzu7s%2FtoOVx2ys0gSXdsN%2F5UQXsSI%3D`,
+  data: fs.readFileSync(path.join(__dirname, 'test-reports.zip'))
 });
 
 const listComments = () => ({
@@ -115,14 +116,8 @@ const listComments = () => ({
   ]
 });
 
-const artifactZip = () => ({
-  status: 200,
-  data: fs.readFileSync(path.join(__dirname, 'test-reports.zip'))
-});
-
 module.exports = {
   artifactsForWorkflowRun,
-  artifactZip,
   downloadArtifact,
   getWorkflowRunCompletedSuccess,
   listComments,
