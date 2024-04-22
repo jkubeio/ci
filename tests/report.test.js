@@ -18,9 +18,9 @@ describe('report module test suite', () => {
       // Then
       expect(result).toBe(`<!-- Eclipse JKube CI bot report -->
 <!-- METADATA {"pr":"1337","runId":"313373"} -->
-### Eclipse JKube [CI Report](https://github.com/jkubeio/ci)
+### Eclipse JKube [CI Report](https://github.com/eclipse-jkube/ci)
 
-Started new GH workflow run for https://github.com/eclipse/jkube/pull/1337 (_2015-10-21T04:29:00.000Z_)
+Started new GH workflow run for https://github.com/eclipse-jkube/jkube/pull/1337 (_2015-10-21T04:29:00.000Z_)
 
 :gear: [JKube E2E Tests Mocked (313373)](https://github.com/jkubeio/ci/actions/runs/313373) :heavy_check_mark:
 - :heavy_check_mark: [Bootstrap CI test run (#1337)](https://github.com/jkubeio/ci/runs/13371)

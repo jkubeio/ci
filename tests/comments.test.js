@@ -23,7 +23,7 @@ describe('comments module test suite', () => {
   test('getReportComment', async () => {
     const result = await comments.getReportComment();
     expect(octokit.issues.listComments)
-      .toHaveBeenCalledWith({'owner': 'eclipse', 'repo': 'jkube', 'issue_number': "1337"});
+      .toHaveBeenCalledWith({'owner': 'eclipse-jkube', 'repo': 'jkube', 'issue_number': "1337"});
     expect(result).toMatchObject({
       id: 13373,
       body: '<!-- Eclipse JKube CI bot report --> This is the right one!',
